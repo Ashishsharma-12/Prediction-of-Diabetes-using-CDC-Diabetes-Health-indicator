@@ -147,7 +147,7 @@ for (i in 1:length(features_numerical)) {
   
   feature_data <- df[, c(features_numerical[i]), drop = FALSE]  # Ensure it's a dataframe
   
-  p <- ggplot(feature_data, aes(x = .data[[features_numerical[i]]], col = clr, alpha = 0.5)) +
+  p <- ggplot(feature_data, aes(x = .data[[features_numerical[i]]], col = clr)) +
     geom_histogram() +
     ggtitle(paste("Distribution of", features_numerical[i]))
   
@@ -310,6 +310,17 @@ corrplot(corr, method = "number", title="Correlation matrix with target")
 #       "Diabetes"
 #     )
 #   )
+
+df %<>%
+  rename(y = Diabetes_binary) %>% 
+  mutate(
+    y = ifelse(
+      y == 0,
+      "Healthy",
+      "Diabetes"
+    )
+  ) %>% 
+ as_factor()
 
 
 # Splitting data into Train test samples using train_test_split()
